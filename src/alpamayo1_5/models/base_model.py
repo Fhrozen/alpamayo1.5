@@ -498,8 +498,10 @@ class ReasoningVLA(PreTrainedModel, TrajectoryFusionMixin):
             input_ids=input_ids, **tokenized_data, generation_config=generation_config
         )
         generated_tokens = generated.sequences[:, input_ids.shape[1] :]
+        num_generated_tokens = generated_tokens.shape[1]
 
         extra = extract_text_tokens(self.tokenizer, generated_tokens)
         for key in extra:
             extra[key] = np.array(extra[key]).reshape([input_ids.shape[0], num_samples])
+        extra["num_generated_tokens"] = num_generated_tokens
         return extra
