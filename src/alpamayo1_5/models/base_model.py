@@ -459,6 +459,7 @@ class ReasoningVLA(PreTrainedModel, TrajectoryFusionMixin):
         top_p: float = 0.98,
         top_k: int | None = None,
         temperature: float = 0.6,
+        do_sample: bool = True,
         num_samples: int = 1,
         max_generation_length: int = 256,
     ) -> dict[str, np.ndarray]:
@@ -486,7 +487,7 @@ class ReasoningVLA(PreTrainedModel, TrajectoryFusionMixin):
         generation_config = self.vlm.generation_config
         generation_config.top_p = top_p
         generation_config.temperature = temperature
-        generation_config.do_sample = True
+        generation_config.do_sample = do_sample
         generation_config.num_return_sequences = num_samples
         generation_config.max_new_tokens = max_generation_length
         generation_config.output_logits = True
